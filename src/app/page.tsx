@@ -27,7 +27,7 @@ export default async function Home() {
 
           <div className="w-full mt-4">
             {isAuth ? (
-              <h1>fileupload</h1>
+              <h1>file upload</h1>
             ) : (
               <Link href="/sign-in">
                 <Button>
