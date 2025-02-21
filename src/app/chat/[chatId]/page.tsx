@@ -1,3 +1,4 @@
+import ChatComponent from "@/components/ChatComponent";
 import ChatSideBar from "@/components/ChatSideBar";
 import PDFViewer from "@/components/PDFViewer";
 import { db } from "@/lib/db";
@@ -13,7 +14,8 @@ type Props = {
   };
 };
 
-const ChatPage = async ({ params: { chatId } }: Props) => {
+const ChatPage = async ({ params }: Props) => {
+  const { chatId } = await params;
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
@@ -29,21 +31,21 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
 
   const currentChat = _chats.find((chat) => chat.id === parseInt(chatId));
   return (
-    <div className="flex max-h-screen">
-      <div className="flex w-full max-h-screen ">
+    <div className="flex max-h-screen overflow-scroll">
+      <div className="flex w-full max-h-screen overflow-scroll">
         {/* Chat Sidebar */}
         <div className="flex-[1] max-w-xs">
           <ChatSideBar chats={_chats} chatId={parseInt(chatId)} />
         </div>
 
         {/* PDF Viewer */}
-        <div className="max-h-screen p-4 flex-[5]">
+        <div className="max-h-screen p-4 oveflow-scroll flex-[5]">
           <PDFViewer pdf_url={currentChat?.pdfUrl || ""} />
         </div>
 
         {/* Chat Component */}
         <div className="flex-[3] border-l-4 border-l-slate-200">
-          {/* <ChatComponent /> */}
+          <ChatComponent chatId={parseInt(chatId)} />
         </div>
       </div>
     </div>
